@@ -488,6 +488,24 @@ body{
 #color{
     flex:1;
 }
+.extra-field{
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+}
+
+.extra-field input{
+    flex:1;
+}
+
+.remove-btn{
+    width:45px;
+    border:none;
+    border-radius:10px;
+    background:#ff4d4d;
+    color:white;
+    cursor:pointer;
+}
 </style>
 </head>
 <body>
@@ -697,8 +715,7 @@ body{
 </select>
     <label>Type</label>
 
- <select id="dressType">
-
+<select id="dressType" onchange="toggleOtherDressType()">
     <option>Select Dress Type</option>
 
     <option>2 Pieces Suit</option>
@@ -730,7 +747,13 @@ body{
     <option>Festive Wear</option>
 
     <option>Wedding Collection</option>
-
+<option>Other</option>
+<input
+    id="otherDressType"
+    type="text"
+    placeholder="Enter Dress Type"
+    style="display:none;margin-top:10px;"
+>
 </select>
 
     <label>Description</label>
@@ -796,7 +819,23 @@ body{
         </div>
 
     </div>
+<label>Additional Details</label>
 
+<div id="extraFieldsContainer"></div>
+
+<button
+type="button"
+id="addFieldBtn"
+style="
+margin-top:15px;
+padding:12px 18px;
+border:none;
+border-radius:12px;
+background:rgba(255,255,255,.12);
+color:white;
+cursor:pointer;">
++ Add Section
+</button>
   <button
     type="button"
     id="saveProductBtn"
@@ -863,7 +902,7 @@ body{
 
 
 
-     <div class="nav-item"onclick="window.location.href='lehangas.html'">
+     <div class="nav-item"onclick="window.location.href='Lehangas.html'">
 
         <img src="8.png">
 
@@ -875,7 +914,7 @@ body{
 
     
 
-    <div class="nav-item"onclick="window.location.href='jewlery.html'">
+    <div class="nav-item"onclick="window.location.href='Jewlery.html'">
 
         <img src="4.webp">
 
@@ -993,6 +1032,12 @@ if(document.getElementById("numericSize").selectedIndex === 0){
     if(document.getElementById("blouseHeight").value.trim() === ""){
         return showToast("Blouse Height is required");
     }
+    if(
+    document.getElementById("dressType").value === "Other" &&
+    document.getElementById("otherDressType").value.trim() === ""
+){
+    return showToast("Enter Dress Type");
+}
 
     if(document.getElementById("blouseWidth").value.trim() === ""){
         return showToast("Blouse Width is required");
@@ -1047,7 +1092,23 @@ async function saveProduct(){
         const image4Url = await uploadImage(
             document.getElementById("image4").files[0]
         );
+const extraDetails = [];
 
+document
+.querySelectorAll(".extra-field")
+.forEach(row=>{
+
+    extraDetails.push({
+
+        heading:
+        row.querySelector(".extra-heading").value,
+
+        content:
+        row.querySelector(".extra-content").value
+
+    });
+
+});
         const { error } = await client
 .from("readymade")
 .insert([{
@@ -1071,7 +1132,9 @@ document.getElementById("sizeCategory").value,
 numeric_size:
 document.getElementById("numericSize").value,
             dress_type:
-document.getElementById("dressType").value,
+document.getElementById("dressType").value === "Other"
+? document.getElementById("otherDressType").value
+: document.getElementById("dressType").value,
             description:
             document.getElementById("description").value,
 
@@ -1092,7 +1155,8 @@ document.getElementById("color").value,
             document.getElementById("blouseHeight").value,
 
             blouse_width:
-            document.getElementById("blouseWidth").value
+            document.getElementById("blouseWidth").value,
+            extra_details: extraDetails,
 
         }]);
 
@@ -1144,6 +1208,61 @@ function syncColor(){
     picker.value;
 
 }
+function toggleOtherDressType(){
+
+    const type =
+    document.getElementById("dressType");
+
+    const other =
+    document.getElementById("otherDressType");
+
+    if(type.value === "Other"){
+
+        other.style.display = "block";
+
+    }else{
+
+        other.style.display = "none";
+        other.value = "";
+
+    }
+
+}
+document
+.getElementById("addFieldBtn")
+.addEventListener("click",()=>{
+
+    const div =
+    document.createElement("div");
+
+    div.className =
+    "extra-field";
+
+    div.innerHTML = `
+        <input
+        type="text"
+        class="extra-heading"
+        placeholder="Side Heading">
+
+        <input
+        type="text"
+        class="extra-content"
+        placeholder="Enter Matter">
+
+        <button
+        type="button"
+        class="remove-btn">-</button>
+    `;
+
+    div
+    .querySelector(".remove-btn")
+    .onclick = ()=> div.remove();
+
+    document
+    .getElementById("extraFieldsContainer")
+    .appendChild(div);
+
+});
 </script>
 
 </body>
