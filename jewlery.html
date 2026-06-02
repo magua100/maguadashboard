@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Women's Fashion</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
+    width:100%;
+    max-width:100%;
+    overflow-x:hidden;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#5e3984;
+    min-height:100dvh;
+    overflow-x:hidden;
+    overflow-y:auto;
+}
+@media (max-width:768px){
+
+    .hero h1{
+        font-size:34px;
+    }
+
+    .hero p{
+        font-size:16px;
+    }
+
+    .categories{
+        font-size:24px;
+    }
+
+    .bottom-sheet{
+        height:60dvh;
+    }
+}
+/* NAVBAR */
+
+.navbar{
+    width:100%;
+    height:80px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 20px;
+    background:transparent;
+}
+
+/* VIDEO LOGO */
+
+.logo{
+    height:65px;
+    margin-left:-14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:transparent !important;
+}
+
+.logo video{
+    height:65px;
+    width:auto;
+    object-fit:contain;
+    background:transparent !important;
+    mix-blend-mode:screen;
+    isolation:isolate;
+    display:block;
+}
+
+/* CATEGORIES */
+
+.categories{
+    color:#ffffff;
+    font-family:'Cormorant Garamond', serif;
+    font-size:28px;
+    font-weight:600;
+    letter-spacing:1px;
+    cursor:pointer;
+    user-select:none;
+}
+
+/* CENTER CONTENT */
+
+.hero{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    text-align:center;
+    color:white;
+    width:90%;
+}
+
+.hero h1{
+    font-family:'Cinzel', serif;
+    font-size:68px;
+    font-weight:600;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    line-height:1.1;
+    margin:0;
+}
+
+.hero p{
+    font-family:'Cormorant Garamond', serif;
+    font-size:26px;
+    margin-top:10px;
+    letter-spacing:2px;
+}
+
+@media(max-width:768px){
+
+    .hero{
+        width:95%;
+    }
+
+    .hero h1{
+        font-size:40px;
+        letter-spacing:2px;
+    }
+
+    .hero p{
+        font-size:18px;
+    }
+}
+
+.hero p{
+    font-size:18px;
+}
+
+/* OVERLAY */
+
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.4);
+    display:none;
+    z-index:999;
+}
+
+/* BOTTOM SHEET */
+
+.bottom-sheet{
+    position:fixed;
+    left:0;
+    bottom:-100%;
+    width:100%;
+    height:calc(50dvh - 80px);
+    background:white;
+    border-radius:25px 25px 0 0;
+    transition:.35s ease;
+    z-index:1000;
+    padding:25px;
+    overflow-y:auto;
+}
+.bottom-sheet.active{
+    bottom:0;
+}
+
+.overlay.active{
+    display:block;
+}
+
+.drag-line{
+    width:60px;
+    height:5px;
+    background:#ccc;
+    border-radius:20px;
+    margin:0 auto 25px;
+}
+
+.sheet-title{
+    font-size:24px;
+    font-weight:bold;
+    color:#5e3984;
+    margin-bottom:20px;
+}
+
+.category-item{
+    padding:18px 0;
+    border-bottom:1px solid #eee;
+    font-size:18px;
+    color:#333;
+    cursor:pointer;
+}
+
+.category-item:last-child{
+    border:none;
+}
+
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:80px;
+    background:#5e3984;
+    display:flex;
+    justify-content:space-evenly;
+    align-items:center;
+    z-index:998;
+}
+
+.nav-item{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+    cursor:pointer;
+    padding:8px 12px;
+    border-radius:16px;
+    transition:all .3s ease;
+}
+
+.nav-item.active{
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.25);
+}
+
+.nav-item.active span{
+    color:#ffffff;
+    font-weight:700;
+}
+
+.nav-item img{
+    width:26px;
+    height:26px;
+    object-fit:contain;
+}
+
+.nav-item span{
+    color:white;
+    font-size:12px;
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    text-align:center;
+}
+.page-heading{
+    text-align:center;
+    color:white;
+    font-family:'Cinzel', serif;
+    font-size:32px;
+    font-weight:600;
+    margin-top:20px;
+    position:relative;
+}
+
+.page-heading::after{
+    content:"";
+    display:block;
+    width:120px;
+    height:2px;
+    background:white;
+    margin:10px auto 0;
+    opacity:.8;
+}
+.saree-form{
+    width:92%;
+    max-width:750px;
+    margin:35px auto 120px;
+}
+
+.saree-form label{
+    display:block;
+    color:#ffffff;
+    font-family:'Cormorant Garamond', serif;
+    font-size:22px;
+    font-weight:600;
+    margin-top:24px;
+    margin-bottom:8px;
+}
+
+.saree-form input,
+.saree-form select{
+    width:100%;
+    background:transparent;
+    border:none;
+    border-bottom:1px solid rgba(255,255,255,.18);
+    color:white;
+    padding:15px 0;
+    font-size:16px;
+    outline:none;
+}
+
+.saree-form input::placeholder{
+    color:rgba(255,255,255,.45);
+}
+
+.saree-form select{
+    appearance:none;
+    background:transparent;
+}
+
+.saree-form option{
+    color:black;
+}
+
+/* Upload */
+
+.upload-area{
+    width:100%;
+    border:1px dashed rgba(255,255,255,.20);
+    border-radius:18px;
+    padding:22px;
+    text-align:center;
+    cursor:pointer;
+    margin-top:10px;
+    transition:.3s;
+}
+
+.upload-area:hover{
+    border-color:rgba(255,255,255,.40);
+}
+
+.upload-area input{
+    display:none;
+}
+
+.upload-area span{
+    color:#e4d6f7;
+    font-family:'Cormorant Garamond', serif;
+    font-size:22px;
+}
+
+/* Measurements */
+
+.measurements{
+    display:flex;
+    gap:25px;
+    margin-top:30px;
+}
+
+.measure-box{
+    flex:1;
+}
+
+.measure-box h3{
+    color:white;
+    font-family:'Cinzel', serif;
+    font-size:17px;
+    font-weight:600;
+    margin-bottom:15px;
+    padding-bottom:10px;
+    border-bottom:1px solid rgba(255,255,255,.15);
+}
+
+.measure-box input{
+    margin-bottom:15px;
+}
+
+/* Save Button */
+
+.save-btn{
+    width:100%;
+    height:58px;
+    margin-top:40px;
+    border:none;
+    border-radius:18px;
+    background:rgba(255,255,255,.08);
+    color:white;
+    font-family:'Cinzel', serif;
+    font-size:15px;
+    letter-spacing:3px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.save-btn:hover{
+    background:rgba(255,255,255,.14);
+}
+@media(max-width:768px){
+
+    .saree-form{
+        width:calc(100% - 60px);
+        margin-left:30px;
+        margin-right:30px;
+    }
+
+    .measurements{
+        flex-direction:column;
+        gap:20px;
+    }
+
+    .saree-form label{
+        font-size:20px;
+    }
+
+    .upload-area span{
+        font-size:20px;
+    }
+
+}
+.custom-textarea{
+    width:100%;
+    min-height:120px;
+    background:transparent;
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:14px;
+    color:white;
+    padding:15px;
+    resize:vertical;
+    font-size:16px;
+    outline:none;
+    margin-top:5px;
+}
+
+.custom-textarea::placeholder{
+    color:rgba(255,255,255,.45);
+}
+
+.custom-textarea:focus{
+    border-color:rgba(255,255,255,.30);
+}
+.toast-message{
+    position:fixed;
+    left:50%;
+    bottom:90px;
+    transform:translateX(-50%);
+    background:rgba(255,255,255,.12);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+
+    color:#ffffff;
+    font-size:13px;
+    font-weight:500;
+
+    padding:10px 16px;
+
+    border-radius:20px;
+
+    opacity:0;
+    visibility:hidden;
+
+    transition:.25s ease;
+
+    z-index:9999;
+
+    max-width:85%;
+    text-align:center;
+
+    border:1px solid rgba(255,255,255,.15);
+}
+
+.toast-message.show{
+    opacity:1;
+    visibility:visible;
+}
+.color-wrapper{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+#colorPicker{
+    width:55px !important;
+    height:55px;
+    padding:0;
+    border:none;
+    background:none;
+    cursor:pointer;
+    border-radius:50%;
+    overflow:hidden;
+    flex-shrink:0;
+}
+
+#colorPicker::-webkit-color-swatch{
+    border:none;
+    border-radius:50%;
+}
+
+#colorPicker::-webkit-color-swatch-wrapper{
+    padding:0;
+}
+
+#color{
+    flex:1;
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+       <video autoplay muted loop playsinline webkit-playsinline>
+        <source src="video2.mov" type='video/mp4; codecs="hvc1"'>
+        <source src="video2.webm" type="video/webm">
+    </video>
+    </div>
+
+    <div class="categories" onclick="openSheet()">
+        Magua
+    </div>
+
+</nav>
+
+
+
+<div class="page-heading">
+    Jewelry
+</div>
+<form class="saree-form" id="sareeForm">
+    <label>Product Name</label>
+    <input
+        id="productName"
+        type="text"
+        placeholder="Enter Product Name"
+    >
+<label>Color</label>
+
+<div class="color-wrapper">
+
+    <input
+        type="color"
+        id="colorPicker"
+        value="#ff0000"
+        onchange="syncColor()"
+    >
+
+    <input
+        type="text"
+        id="color"
+        placeholder="Red, Blue, Green..."
+    >
+
+</div>
+<label>Type</label>
+
+<select id="dressType">
+
+    <option>Select Jewelry Type</option>
+
+    <option>Necklace</option>
+
+    <option>Earrings</option>
+
+    <option>Bangles</option>
+
+    <option>Maang Tikka</option>
+
+    <option>Long Necklace</option>
+
+    <option>Haram</option>
+
+    <option>Jadau Kundan Set</option>
+
+    <option>Polki Set</option>
+
+    <option>Rajwadi Set</option>
+
+    <option>Mojo Night Jewelry</option>
+
+    <option>Choker Set</option>
+
+    <option>Pendant Set</option>
+
+    <option>Bridal Set</option>
+
+    <option>Temple Jewelry</option>
+
+    <option>Antique Jewelry</option>
+
+    <option>Pearl Set</option>
+
+    <option>American Diamond Set</option>
+
+    <option>Oxidised Jewelry</option>
+
+</select>
+    <label>Images</label>
+
+    <label class="upload-area">
+
+        <span id="fileName1">Upload Image 1</span>
+
+        <input
+            id="image1"
+            type="file"
+            accept="image/*"
+            onchange="showFileName(this,'fileName1')"
+        >
+
+    </label>
+
+    <label class="upload-area">
+
+        <span id="fileName2">Upload Image 2</span>
+
+        <input
+            id="image2"
+            type="file"
+            accept="image/*"
+            onchange="showFileName(this,'fileName2')"
+        >
+
+    </label>
+
+    <label class="upload-area">
+
+        <span id="fileName3">Upload Image 3</span>
+
+        <input
+            id="image3"
+            type="file"
+            accept="image/*"
+            onchange="showFileName(this,'fileName3')"
+        >
+
+    </label>
+
+    <label class="upload-area">
+
+        <span id="fileName4">Upload Image 4 (Optional)</span>
+
+        <input
+            id="image4"
+            type="file"
+            accept="image/*"
+            onchange="showFileName(this,'fileName4')"
+        >
+
+    </label>
+
+    <label>Original Price</label>
+    <input
+        id="originalPrice"
+        type="number"
+        placeholder="Enter Original Price"
+    >
+
+    <label>Discount Price</label>
+    <input
+        id="discountPrice"
+        type="number"
+        placeholder="Enter Discount Price"
+    >
+
+<label>Age Suitable</label>
+
+<input
+    id="ageSuitable"
+    type="text"
+    placeholder="Example: 5-10 Years, 18+, All Ages"
+/>
+
+
+    <label>Description</label>
+
+    <textarea
+        id="description"
+        class="custom-textarea"
+        placeholder="Enter Product Description"
+    ></textarea>
+
+    <label>Pattern Type</label>
+
+    <input
+        id="patternType"
+        type="text"
+        placeholder="Enter Pattern Type"
+    >
+
+    <label>Fabric (Dress Type)</label>
+
+    <input
+        id="fabric"
+        type="text"
+        placeholder="Enter Fabric Type"
+    >
+
+   
+  <button
+    type="button"
+    id="saveProductBtn"
+    class="save-btn"
+    onclick="validateForm()"
+>
+    SAVE PRODUCT
+</button>
+
+</form>
+
+<div class="overlay" id="overlay" onclick="closeSheet()"></div>
+
+<div class="bottom-sheet" id="sheet">
+
+    <div class="drag-line"></div>
+
+    <div class="sheet-title">
+        Categories
+    </div>
+
+    <div class="category-item">Sarees</div>
+
+    <div class="category-item">Ready Made Dresses</div>
+
+    <div class="category-item">Dress Materials</div>
+
+    <div class="category-item">Lehangas</div>
+
+    <div class="category-item">Fine Jewelry</div>
+
+</div>
+<div class="bottom-nav">
+
+    <div class="nav-item" onclick="window.location.href='sarees.html'">
+    <img src="5.webp">
+    <span>Sarees</span>
+</div>
+
+
+     <div class="nav-item"onclick="window.location.href='readmade.html'">
+        <img src="3.webp">
+        <span>Ready Made</span>
+    </div>
+
+    <div class="nav-item"onclick="window.location.href='dress.html'">
+        <img src="1.webp">
+        <span>Dress Materials</span>
+    </div>
+
+    <div class="nav-item"onclick="window.location.href='Lehangas.html'">
+        <img src="8.png">
+        <span>Lehangas</span>
+    </div>
+    <div class="nav-item active">
+        <img src="4.webp">
+        <span>Jewelry</span>
+    </div>
+
+</div>
+<div id="toast-message" class="toast-message">
+    All required fields are mandatory
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL = "https://ummzqbaalrxyyulrkxaz.supabase.co";
+
+const SUPABASE_ANON_KEY = "sb_publishable_o79JQ-LkQkFohS4m7waJVw_U_xiIX8r";
+const client = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+);
+
+console.log("Supabase Connected ✅");
+
+const sheet = document.getElementById("sheet");
+const overlay = document.getElementById("overlay");
+
+function openSheet(){
+    sheet.classList.add("active");
+    overlay.classList.add("active");
+}
+
+function closeSheet(){
+    sheet.classList.remove("active");
+    overlay.classList.remove("active");
+}
+function showFileName(input,id){
+
+    if(input.files.length > 0){
+
+        document.getElementById(id).textContent =
+        input.files[0].name;
+
+    }
+
+}
+function showToast(message){
+
+    const toast = document.getElementById("toast-message");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+        toast.classList.remove("show");
+    },2000);
+
+}
+function validateForm(event){
+
+    if(event){
+        event.preventDefault();
+    }
+
+    if(document.getElementById("productName").value.trim() === ""){
+        return showToast("Product Name is required");
+    }
+
+    if(!document.getElementById("image1").files.length){
+        return showToast("Image 1 is required");
+    }
+
+    if(!document.getElementById("image2").files.length){
+        return showToast("Image 2 is required");
+    }
+
+    if(!document.getElementById("image3").files.length){
+        return showToast("Image 3 is required");
+    }
+
+    if(document.getElementById("originalPrice").value.trim() === ""){
+        return showToast("Original Price is required");
+    }
+
+    if(document.getElementById("discountPrice").value.trim() === ""){
+        return showToast("Discount Price is required");
+    }
+
+   if(document.getElementById("dressType").selectedIndex === 0){
+    return showToast("Please Select Dress Type");
+}
+
+    if(document.getElementById("fabric").value.trim() === ""){
+        return showToast("Fabric is required");
+    }
+
+    
+
+    
+
+    
+
+    saveProduct();
+}
+async function saveProduct(){
+
+    try{
+
+        showToast("Uploading...");
+
+        const btn = document.getElementById("saveProductBtn");
+        btn.disabled = true;
+        btn.innerText = "UPLOADING...";
+
+        async function uploadImage(file){
+
+            if(!file) return null;
+
+            const fileName =
+                Date.now() + "_" + file.name;
+
+            const { error } =
+            await client.storage
+            .from("jewelry")
+            .upload(fileName,file);
+
+            if(error) throw error;
+
+            const { data } =
+            client.storage
+            .from("jewelry")
+            .getPublicUrl(fileName);
+
+            return data.publicUrl;
+        }
+
+        const image1Url = await uploadImage(
+            document.getElementById("image1").files[0]
+        );
+
+        const image2Url = await uploadImage(
+            document.getElementById("image2").files[0]
+        );
+
+        const image3Url = await uploadImage(
+            document.getElementById("image3").files[0]
+        );
+
+        const image4Url = await uploadImage(
+            document.getElementById("image4").files[0]
+        );
+
+        const { error } = await client
+.from("jewelry")
+.insert([{
+
+            product_name:
+            document.getElementById("productName").value,
+
+            image1:image1Url,
+            image2:image2Url,
+            image3:image3Url,
+            image4:image4Url,
+
+            original_price:
+            document.getElementById("originalPrice").value,
+
+            discount_price:
+            document.getElementById("discountPrice").value,
+age_suitable:
+document.getElementById("ageSuitable").value,
+           jewelry_type:
+document.getElementById("dressType").value,
+            description:
+            document.getElementById("description").value,
+
+            pattern_type:
+            document.getElementById("patternType").value,
+
+            fabric:
+            document.getElementById("fabric").value,
+
+    
+
+color:
+document.getElementById("color").value,
+           
+        }]);
+
+        if(error){
+    console.log(error);
+    alert(error.message);
+    throw error;
+}
+
+        showToast("Product Saved Successfully");
+
+        document.querySelector(".saree-form").reset();
+
+        document.getElementById("fileName1").textContent =
+        "Upload Image 1";
+
+        document.getElementById("fileName2").textContent =
+        "Upload Image 2";
+
+        document.getElementById("fileName3").textContent =
+        "Upload Image 3";
+
+        document.getElementById("fileName4").textContent =
+        "Upload Image 4 (Optional)";
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        showToast(error.message);
+
+    }
+    finally{
+
+        const btn =
+        document.getElementById("saveProductBtn");
+
+        btn.disabled = false;
+        btn.innerText = "SAVE PRODUCT";
+
+    }
+
+}
+function syncColor(){
+
+    const picker =
+    document.getElementById("colorPicker");
+
+    document.getElementById("color").value =
+    picker.value;
+
+}
+</script>
+
+</body>
+</html>

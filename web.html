@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magua Ethics</title>
+
+<style>
+:root{
+    --primary:#5e3984;
+    --secondary:#7b5aa0;
+    --light:#f8f5fc;
+    --dark:#2c1d3d;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+    scroll-behavior:smooth;
+}
+
+body{
+    background:var(--light);
+    color:#333;
+    line-height:1.6;
+}
+
+/* Navbar */
+header{
+    background:var(--primary);
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+nav{
+    max-width:1200px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 20px;
+}
+
+.logo{
+    color:#fff;
+    font-size:1.7rem;
+    font-weight:700;
+}
+
+nav ul{
+    list-style:none;
+    display:flex;
+    gap:25px;
+}
+
+nav ul li a{
+    text-decoration:none;
+    color:#fff;
+    transition:.3s;
+}
+
+nav ul li a:hover{
+    opacity:.8;
+}
+
+/* Hero */
+.hero{
+    min-height:90vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:20px;
+    background:linear-gradient(
+        135deg,
+        #5e3984,
+        #7b5aa0
+    );
+    color:white;
+}
+
+.hero-content{
+    max-width:800px;
+}
+
+.hero h1{
+    font-size:3.5rem;
+    margin-bottom:20px;
+}
+
+.hero p{
+    font-size:1.2rem;
+    margin-bottom:30px;
+}
+
+.btn{
+    display:inline-block;
+    background:white;
+    color:var(--primary);
+    padding:14px 32px;
+    border-radius:40px;
+    text-decoration:none;
+    font-weight:600;
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:translateY(-3px);
+}
+
+/* Sections */
+section{
+    padding:80px 20px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+.section-title{
+    text-align:center;
+    color:var(--primary);
+    font-size:2.3rem;
+    margin-bottom:50px;
+}
+
+/* About */
+.about{
+    text-align:center;
+}
+
+.about p{
+    max-width:800px;
+    margin:auto;
+    font-size:1.1rem;
+}
+
+/* Services */
+.services-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+}
+
+.card h3{
+    color:var(--primary);
+    margin-bottom:15px;
+}
+
+/* Features */
+.features{
+    background:white;
+}
+
+.feature-list{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+}
+
+.feature{
+    padding:25px;
+    border-left:5px solid var(--primary);
+    background:var(--light);
+    border-radius:10px;
+}
+
+/* Contact */
+.contact-form{
+    max-width:700px;
+    margin:auto;
+}
+
+.contact-form input,
+.contact-form textarea{
+    width:100%;
+    padding:15px;
+    margin-bottom:15px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    outline:none;
+}
+
+.contact-form button{
+    width:100%;
+    background:var(--primary);
+    color:white;
+    border:none;
+    padding:15px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:1rem;
+}
+
+/* Footer */
+footer{
+    background:var(--dark);
+    color:white;
+    text-align:center;
+    padding:25px;
+}
+
+@media(max-width:768px){
+
+    .hero h1{
+        font-size:2.4rem;
+    }
+
+    nav{
+        flex-direction:column;
+        gap:10px;
+    }
+
+    nav ul{
+        gap:15px;
+    }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <div class="logo">Magua Ethics</div>
+
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#why">Why Us</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>Building Trust Through Ethics</h1>
+        <p>
+            Empowering organizations with integrity,
+            transparency, compliance, and ethical excellence.
+        </p>
+
+        <a href="#contact" class="btn">
+            Get Started
+        </a>
+    </div>
+</section>
+
+<section id="about">
+    <div class="container about">
+        <h2 class="section-title">About Magua Ethics</h2>
+
+        <p>
+            Magua Ethics is committed to helping organizations
+            strengthen ethical practices, improve compliance,
+            and foster a culture of integrity. Our mission is
+            to create sustainable trust through responsible
+            business conduct.
+        </p>
+    </div>
+</section>
+
+<section id="services">
+    <div class="container">
+        <h2 class="section-title">Our Services</h2>
+
+        <div class="services-grid">
+
+            <div class="card">
+                <h3>Ethical Consulting</h3>
+                <p>
+                    Strategic guidance for ethical governance
+                    and responsible decision-making.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Compliance Support</h3>
+                <p>
+                    Ensure adherence to regulations,
+                    standards, and organizational policies.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Training Programs</h3>
+                <p>
+                    Interactive ethics and compliance
+                    training for employees and leaders.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section id="why" class="features">
+    <div class="container">
+        <h2 class="section-title">Why Choose Us</h2>
+
+        <div class="feature-list">
+
+            <div class="feature">
+                <h3>Integrity</h3>
+                <p>
+                    We place honesty and accountability at
+                    the center of everything we do.
+                </p>
+            </div>
+
+            <div class="feature">
+                <h3>Transparency</h3>
+                <p>
+                    Clear communication and ethical
+                    decision-making processes.
+                </p>
+            </div>
+
+            <div class="feature">
+                <h3>Trust</h3>
+                <p>
+                    Building long-term relationships
+                    through ethical excellence.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section id="contact">
+    <div class="container">
+        <h2 class="section-title">Contact Us</h2>
+
+        <form class="contact-form" id="contactForm">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Email Address" required>
+
+            <textarea rows="5"
+            placeholder="Your Message"
+            required></textarea>
+
+            <button type="submit">
+                Send Message
+            </button>
+        </form>
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 Magua Ethics. All Rights Reserved.</p>
+</footer>
+
+<script>
+document
+.getElementById("contactForm")
+.addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    alert(
+        "Thank you for contacting Magua Ethics! We will get back to you soon."
+    );
+
+    this.reset();
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Women's Fashion</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
+    width:100%;
+    overflow-x:hidden;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#5e3984;
+    min-height:100dvh;
+    overflow:hidden;
+}
+@media (max-width:768px){
+
+    .hero h1{
+        font-size:34px;
+    }
+
+    .hero p{
+        font-size:16px;
+    }
+
+    .categories{
+        font-size:24px;
+    }
+
+    .bottom-sheet{
+        height:60dvh;
+    }
+}
+/* NAVBAR */
+
+.navbar{
+    width:100%;
+    height:80px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 20px;
+    background:transparent;
+}
+
+/* VIDEO LOGO */
+
+.logo{
+    height:65px;
+    margin-left:-14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:transparent !important;
+}
+
+.logo video{
+    height:65px;
+    width:auto;
+    object-fit:contain;
+    background:transparent !important;
+    mix-blend-mode:screen;
+    isolation:isolate;
+    display:block;
+}
+
+/* CATEGORIES */
+
+.categories{
+    color:#ffffff;
+    font-family:'Cormorant Garamond', serif;
+    font-size:28px;
+    font-weight:600;
+    letter-spacing:1px;
+    cursor:pointer;
+    user-select:none;
+}
+
+/* CENTER CONTENT */
+
+.hero{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    text-align:center;
+    color:white;
+    width:90%;
+}
+
+.hero h1{
+    font-family:'Cinzel', serif;
+    font-size:68px;
+    font-weight:600;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    line-height:1.1;
+    margin:0;
+}
+
+.hero p{
+    font-family:'Cormorant Garamond', serif;
+    font-size:26px;
+    margin-top:10px;
+    letter-spacing:2px;
+}
+
+@media(max-width:768px){
+
+    .hero{
+        width:95%;
+    }
+
+    .hero h1{
+        font-size:40px;
+        letter-spacing:2px;
+    }
+
+    .hero p{
+        font-size:18px;
+    }
+}
+
+.hero p{
+    font-size:18px;
+}
+
+/* OVERLAY */
+
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.4);
+    display:none;
+    z-index:999;
+}
+
+/* BOTTOM SHEET */
+
+.bottom-sheet{
+    position:fixed;
+    left:0;
+    bottom:-100%;
+    width:100%;
+    height:calc(50dvh - 80px);
+    background:white;
+    border-radius:25px 25px 0 0;
+    transition:.35s ease;
+    z-index:1000;
+    padding:25px;
+    overflow-y:auto;
+}
+.bottom-sheet.active{
+    bottom:0;
+}
+
+.overlay.active{
+    display:block;
+}
+
+.drag-line{
+    width:60px;
+    height:5px;
+    background:#ccc;
+    border-radius:20px;
+    margin:0 auto 25px;
+}
+
+.sheet-title{
+    font-size:24px;
+    font-weight:bold;
+    color:#5e3984;
+    margin-bottom:20px;
+}
+
+.category-item{
+    padding:18px 0;
+    border-bottom:1px solid #eee;
+    font-size:18px;
+    color:#333;
+    cursor:pointer;
+}
+
+.category-item:last-child{
+    border:none;
+}
+
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:80px;
+    background:#5e3984;
+    display:flex;
+    justify-content:space-evenly;
+    align-items:center;
+    z-index:998;
+}
+
+.nav-item{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+    cursor:pointer;
+}
+
+.nav-item img{
+    width:26px;
+    height:26px;
+    object-fit:contain;
+}
+
+.nav-item span{
+    color:white;
+    font-size:12px;
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    text-align:center;
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+
+   <div class="logo">
+    <video autoplay muted loop playsinline webkit-playsinline>
+        <source src="video2.mov" type='video/mp4; codecs="hvc1"'>
+        <source src="video2.webm" type="video/webm">
+    </video>
+</div>
+
+    <div class="categories" onclick="openSheet()">
+        Magua
+    </div>
+
+</nav>
+
+<div class="hero">
+    <h1>Magua Ethnics</h1>
+    <p>Luxury Sarees • Lehengas • Fine Jewelry</p>
+</div>
+
+<div class="overlay" id="overlay" onclick="closeSheet()"></div>
+
+<div class="bottom-sheet" id="sheet">
+
+    <div class="drag-line"></div>
+
+    <div class="sheet-title">
+        Categories
+    </div>
+
+    <div class="category-item">Sarees</div>
+
+    <div class="category-item">Ready Made Dresses</div>
+
+    <div class="category-item">Dress Materials</div>
+
+    <div class="category-item">Lehangas</div>
+
+    <div class="category-item">Fine Jewelry</div>
+
+</div>
+<div class="bottom-nav">
+
+   <div class="nav-item" onclick="window.location.href='sarees.html'">
+    <img src="5.webp">
+    <span>Sarees</span>
+</div>
+
+    <div class="nav-item"onclick="window.location.href='readmade.html'">
+        <img src="3.webp">
+        <span>Ready Made</span>
+    </div>
+
+    <div class="nav-item"onclick="window.location.href='dress.html'">
+        <img src="1.webp">
+        <span>Dress Materials</span>
+    </div>
+
+    <div class="nav-item"onclick="window.location.href='Lehangas.html'">
+        <img src="8.png">
+        <span>Lehangas</span>
+    </div>
+
+    <div class="nav-item"onclick="window.location.href='Jewlery.html'">
+        <img src="4.webp">
+        <span>Jewelry</span>
+    </div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL = "https://ummzqbaalrxyyulrkxaz.supabase.co";
+
+const SUPABASE_ANON_KEY = "sb_publishable_o79JQ-LkQkFohS4m7waJVw_U_xiIX8r";
+const client = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+);
+
+console.log("Supabase Connected ✅");
+
+const sheet = document.getElementById("sheet");
+const overlay = document.getElementById("overlay");
+
+function openSheet(){
+    sheet.classList.add("active");
+    overlay.classList.add("active");
+}
+
+function closeSheet(){
+    sheet.classList.remove("active");
+    overlay.classList.remove("active");
+}
+
+</script>
+
+</body>
+</html>

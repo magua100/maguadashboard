@@ -1,0 +1,407 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+
+<title>Sarees Dashboard</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#5e3984;
+    font-family:Arial,sans-serif;
+    min-height:100vh;
+}
+
+.page-heading{
+    text-align:center;
+    color:white;
+    font-family:'Cinzel',serif;
+    font-size:32px;
+    margin:25px 0;
+}
+
+.page-heading::after{
+    content:"";
+    display:block;
+    width:120px;
+    height:2px;
+    background:white;
+    margin:10px auto;
+}
+
+/* GRID */
+
+#products-container{
+    width:95%;
+    margin:20px auto 100px;
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+    gap:15px;
+}
+
+.product-card{
+    background:rgba(255,255,255,.08);
+    border-radius:20px;
+    overflow:hidden;
+    cursor:pointer;
+    border:1px solid rgba(255,255,255,.12);
+}
+
+.product-image{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+}
+
+.product-content{
+    padding:12px;
+}
+
+.product-title{
+    color:white;
+    font-size:16px;
+    font-family:'Cinzel',serif;
+    margin-bottom:8px;
+}
+
+.discount-price{
+    color:white;
+    font-size:18px;
+    font-weight:700;
+}
+
+/* POPUP */
+
+.popup{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.75);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+}
+
+.popup.active{
+    display:flex;
+}
+
+.popup-box{
+    width:95%;
+    max-width:500px;
+    max-height:90vh;
+    overflow-y:auto;
+    background:#6b4591;
+    border-radius:25px;
+    padding:20px;
+}
+
+.close-popup{
+    color:white;
+    font-size:30px;
+    text-align:right;
+    cursor:pointer;
+}
+
+.slider{
+    display:flex;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    border-radius:18px;
+}
+
+.slider::-webkit-scrollbar{
+    display:none;
+}
+
+.slider img{
+    width:100%;
+    flex:0 0 100%;
+    height:350px;
+    object-fit:cover;
+    scroll-snap-align:start;
+}
+
+.popup-title{
+    color:white;
+    font-size:24px;
+    margin-top:15px;
+    font-family:'Cinzel',serif;
+}
+
+.popup-info{
+    color:#eee;
+    margin-top:10px;
+    line-height:1.7;
+}
+
+.loading{
+    color:white;
+    text-align:center;
+    margin-top:100px;
+}
+
+@media(max-width:768px){
+
+    .product-image{
+        height:180px;
+    }
+
+    .slider img{
+        height:300px;
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="page-heading">
+    Sarees Dashboard
+</div>
+
+<div id="products-container">
+
+    <div class="loading">
+        Loading Products...
+    </div>
+
+</div>
+
+<div class="popup" id="popup">
+
+    <div class="popup-box">
+
+        <div class="close-popup"
+        onclick="closePopup()">
+            ×
+        </div>
+
+        <div id="popupContent"></div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL = "https://ummzqbaalrxyyulrkxaz.supabase.co";
+
+const SUPABASE_ANON_KEY = "sb_publishable_o79JQ-LkQkFohS4m7waJVw_U_xiIX8r";
+
+const client =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+);
+
+loadProducts();
+async function loadProducts(){
+
+    const container =
+    document.getElementById("products-container");
+
+    container.innerHTML =
+    '<div class="loading">Loading Products...</div>';
+
+    try{
+
+        const [
+            sareesRes,
+            readymadeRes,
+            dressRes,
+            lehangasRes,
+            jewelryRes
+        ] = await Promise.all([
+
+            client
+            .from("sarees")
+            .select("*"),
+
+            client
+            .from("readymade")
+            .select("*"),
+
+            client
+            .from("dress_materials")
+            .select("*"),
+
+            client
+            .from("lehangas")
+            .select("*"),
+
+            client
+            .from("jewelry")
+            .select("*")
+
+        ]);
+
+        let products = [];
+
+        products.push(
+            ...(sareesRes.data || []).map(item => ({
+                ...item,
+                category:"Sarees"
+            }))
+        );
+
+        products.push(
+            ...(readymadeRes.data || []).map(item => ({
+                ...item,
+                category:"Ready Made"
+            }))
+        );
+
+        products.push(
+            ...(dressRes.data || []).map(item => ({
+                ...item,
+                category:"Dress Materials"
+            }))
+        );
+
+        products.push(
+            ...(lehangasRes.data || []).map(item => ({
+                ...item,
+                category:"Lehangas"
+            }))
+        );
+
+        products.push(
+            ...(jewelryRes.data || []).map(item => ({
+                ...item,
+                category:"Jewelry"
+            }))
+        );
+
+        products.sort((a,b)=>b.id-a.id);
+
+        let html = "";
+
+        products.forEach(product=>{
+
+            html += `
+
+            <div class="product-card"
+            onclick='openPopup(${JSON.stringify(product)})'>
+
+                <img
+                src="${product.image1}"
+                class="product-image">
+
+                <div class="product-content">
+
+                    <div class="product-title">
+                        ${product.product_name}
+                    </div>
+
+                    <div style="
+                    color:#d9c2ff;
+                    margin-bottom:8px;
+                    font-size:13px;">
+                        ${product.category}
+                    </div>
+
+                    <div class="discount-price">
+                        ₹${product.discount_price}
+                    </div>
+
+                </div>
+
+            </div>
+
+            `;
+
+        });
+
+        container.innerHTML = html;
+
+    }
+    catch(err){
+
+        container.innerHTML =
+        "Failed To Load Products";
+
+        console.log(err);
+
+    }
+
+}
+function openPopup(product){
+
+    document
+    .getElementById("popup")
+    .classList.add("active");
+
+    document
+    .getElementById("popupContent")
+    .innerHTML = `
+
+    <div class="slider">
+
+        ${product.image1 ? `<img src="${product.image1}">` : ""}
+
+        ${product.image2 ? `<img src="${product.image2}">` : ""}
+
+        ${product.image3 ? `<img src="${product.image3}">` : ""}
+
+        ${product.image4 ? `<img src="${product.image4}">` : ""}
+
+    </div>
+
+    <div class="popup-title">
+        ${product.product_name}
+    </div>
+
+    <div class="popup-info">
+
+        Category :
+        ${product.category || "-"}<br><br>
+
+        Discount Price :
+        ₹${product.discount_price}<br><br>
+
+        Original Price :
+        ₹${product.original_price}<br><br>
+
+        Fabric :
+        ${product.fabric || "-"}<br><br>
+
+        Color :
+        ${product.color || "-"}<br><br>
+
+        Pattern :
+        ${product.pattern_type || "-"}<br><br>
+
+        Description :
+        ${product.description || "-"}<br><br>
+
+    </div>
+
+    `;
+}
+
+function closePopup(){
+
+    document
+    .getElementById("popup")
+    .classList.remove("active");
+
+}
+</script>
+
+</body>
+</html>
