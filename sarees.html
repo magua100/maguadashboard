@@ -490,6 +490,39 @@ body{
 #color{
     flex:1;
 }
+.extra-field{
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+    align-items:center;
+}
+
+.extra-field input{
+    flex:1;
+}
+
+.remove-btn{
+    width:40px;
+    height:40px;
+    border:none;
+    border-radius:10px;
+    background:#ff4d4d;
+    color:white;
+    font-size:20px;
+    cursor:pointer;
+    flex-shrink:0;
+}
+
+@media(max-width:768px){
+    .extra-field{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .remove-btn{
+        width:100%;
+    }
+}
 </style>
 </head>
 <body>
@@ -609,15 +642,23 @@ body{
 
     <label>Type</label>
 
-    <select id="sareeType">
-        <option>Select Type</option>
-        <option>Banaras</option>
-        <option>Kora Tissue</option>
-        <option>Kaddi Georgette</option>
-        <option>Viscose</option>
-        <option>Bavudhini</option>
-        <option>Joudhamini</option>
-    </select>
+<select id="sareeType" onchange="toggleOtherType()">
+    <option>Select Type</option>
+    <option>Banaras</option>
+    <option>Kora Tissue</option>
+    <option>Kaddi Georgette</option>
+    <option>Viscose</option>
+    <option>Bavudhini</option>
+    <option>Joudhamini</option>
+    <option>Other</option>
+</select>
+
+<input
+    id="otherType"
+    type="text"
+    placeholder="Enter Type Name"
+    style="display:none;margin-top:10px;"
+>
 
     <label>Description</label>
 
@@ -682,7 +723,23 @@ body{
         </div>
 
     </div>
+<label>Additional Details</label>
 
+<div id="extraFieldsContainer"></div>
+
+<button
+    type="button"
+    id="addFieldBtn"
+    style="
+    margin-top:15px;
+    padding:12px 18px;
+    border:none;
+    border-radius:12px;
+    background:rgba(255,255,255,.12);
+    color:white;
+    cursor:pointer;">
+    + Add Section
+</button>
   <button
     type="button"
     id="saveProductBtn"
@@ -691,7 +748,14 @@ body{
 >
     SAVE PRODUCT
 </button>
-
+<button
+    type="button"
+    class="save-btn"
+    onclick="goToUpdatePage()"
+    style="margin-top:15px;"
+>
+    UPDATE PRODUCT
+</button>
 </div>
 
 <div class="overlay" id="overlay" onclick="closeSheet()"></div>
@@ -732,12 +796,12 @@ body{
         <span>Dress Materials</span>
     </div>
 
-     <div class="nav-item"onclick="window.location.href='lehangas.html'">
+     <div class="nav-item"onclick="window.location.href='Lehangas.html'">
         <img src="8.png">
         <span>Lehangas</span>
     </div>
   
-    <div class="nav-item"onclick="window.location.href='jewlery.html'">
+    <div class="nav-item"onclick="window.location.href='Jewlery.html'">
         <img src="4.webp">
         <span>Jewelry</span>
     </div>
@@ -819,7 +883,12 @@ function validateForm(event){
     if(document.getElementById("originalPrice").value.trim() === ""){
         return showToast("Original Price is required");
     }
-
+if(
+    document.getElementById("sareeType").value === "Other" &&
+    document.getElementById("otherType").value.trim() === ""
+){
+    return showToast("Please enter Type Name");
+}
     if(document.getElementById("discountPrice").value.trim() === ""){
         return showToast("Discount Price is required");
     }
@@ -899,7 +968,21 @@ async function saveProduct(){
         const image4Url = await uploadImage(
             document.getElementById("image4").files[0]
         );
+const extraDetails = [];
 
+document
+.querySelectorAll(".extra-field")
+.forEach(row => {
+
+    extraDetails.push({
+        heading:
+        row.querySelector(".extra-heading").value,
+
+        content:
+        row.querySelector(".extra-content").value
+    });
+
+});
         const { error } = await client
         .from("sarees")
         .insert([{
@@ -918,9 +1001,10 @@ async function saveProduct(){
             discount_price:
             document.getElementById("discountPrice").value,
 
-            saree_type:
-            document.getElementById("sareeType").value,
-
+           saree_type:
+document.getElementById("sareeType").value === "Other"
+? document.getElementById("otherType").value
+: document.getElementById("sareeType").value,
             description:
             document.getElementById("description").value,
 
@@ -941,8 +1025,8 @@ document.getElementById("color").value,
             document.getElementById("blouseHeight").value,
 
             blouse_width:
-            document.getElementById("blouseWidth").value
-
+            document.getElementById("blouseWidth").value,
+extra_details: extraDetails
         }]);
 
         if(error){
@@ -991,6 +1075,71 @@ function syncColor(){
 
     document.getElementById("color").value =
     picker.value;
+
+}
+document
+.getElementById("addFieldBtn")
+.addEventListener("click", function(){
+
+    const wrapper =
+    document.createElement("div");
+
+    wrapper.className = "extra-field";
+
+    wrapper.innerHTML = `
+        <input
+            type="text"
+            class="extra-heading"
+            placeholder="Side Heading"
+        >
+
+        <input
+            type="text"
+            class="extra-content"
+            placeholder="Enter Matter"
+        >
+
+        <button
+            type="button"
+            class="remove-btn">
+            -
+        </button>
+    `;
+
+    wrapper
+    .querySelector(".remove-btn")
+    .addEventListener("click", function(){
+        wrapper.remove();
+    });
+
+    document
+    .getElementById("extraFieldsContainer")
+    .appendChild(wrapper);
+
+});
+function toggleOtherType(){
+
+    const typeSelect =
+    document.getElementById("sareeType");
+
+    const otherInput =
+    document.getElementById("otherType");
+
+    if(typeSelect.value === "Other"){
+
+        otherInput.style.display = "block";
+
+    }else{
+
+        otherInput.style.display = "none";
+        otherInput.value = "";
+
+    }
+
+}
+function goToUpdatePage(){
+
+    window.location.href = "update.html";
 
 }
 </script>
